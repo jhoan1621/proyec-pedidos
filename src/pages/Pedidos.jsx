@@ -1,5 +1,8 @@
+/* Pedidos.jsx */
+
 import { useState } from "react";
 import { menu } from "../data/menu";
+import Modal from "../components/Modal";
 
 function Pedidos() {
   const [carrito, setCarrito] = useState([]);
@@ -91,15 +94,7 @@ function Pedidos() {
       <h2>🍔 Menú de Hamburguesas</h2>
 
       {/* 🔍 Filtros */}
-      <div
-        className="filtros"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="filtros">
         <input
           type="text"
           placeholder="Buscar hamburguesa..."
@@ -171,14 +166,7 @@ function Pedidos() {
                 <div className="carrito-info">
                   <strong>{item.nombre}</strong>
                   <br />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      justifyContent: "center",
-                    }}
-                  >
+                  <div className="cantidad">
                     <button onClick={() => reducirCantidad(item.id)}>-</button>
                     <span>{item.cantidad}</span>
                     <button onClick={() => agregarAlCarrito(item)}>+</button>
@@ -207,50 +195,48 @@ function Pedidos() {
 
       {/* Modal de pedido */}
       {mostrarModal && detallePedido && (
-        <div className="modal">
-          <div className="modal-contenido">
-            <h3>✅ Pedido Finalizado</h3>
-            <p>
-              <strong>Fecha:</strong> {detallePedido.fecha}
-            </p>
-            <ul>
-              {detallePedido.items.map((item) => (
-                <li key={item.id}>
-                  {item.nombre} x {item.cantidad} = S/{" "}
-                  {(item.precio * item.cantidad).toFixed(2)}
-                </li>
-              ))}
-            </ul>
-            <p>
-              <strong>Subtotal:</strong> S/ {detallePedido.subtotal.toFixed(2)}
-            </p>
-            <p>
-              <strong>IGV:</strong> S/ {detallePedido.igv.toFixed(2)}
-            </p>
-            <p>
-              <strong>Total:</strong> S/ {detallePedido.total.toFixed(2)}
-            </p>
-            <button onClick={() => setMostrarModal(false)}>Cerrar</button>
-          </div>
-        </div>
+        <Modal
+          titulo="✅ Pedido Finalizado"
+          onClose={() => setMostrarModal(false)}
+        >
+          <p>
+            <strong>Fecha:</strong> {detallePedido.fecha}
+          </p>
+          <ul>
+            {detallePedido.items.map((item) => (
+              <li key={item.id}>
+                {item.nombre} x {item.cantidad} = S/{" "}
+                {(item.precio * item.cantidad).toFixed(2)}
+              </li>
+            ))}
+          </ul>
+          <p>
+            <strong>Subtotal:</strong> S/ {detallePedido.subtotal.toFixed(2)}
+          </p>
+          <p>
+            <strong>IGV:</strong> S/ {detallePedido.igv.toFixed(2)}
+          </p>
+          <p>
+            <strong>Total:</strong> S/ {detallePedido.total.toFixed(2)}
+          </p>
+        </Modal>
       )}
 
-      {/* Modal de detalle de hamburguesa */}
+      {/* Modal de detalle */}
       {verDetalle && productoDetalle && (
-        <div className="modal">
-          <div className="modal-contenido">
-            <h3>{productoDetalle.nombre}</h3>
-            <p>
-              <strong>Ingredientes:</strong>
-            </p>
-            <ul>
-              {productoDetalle.ingredientes.map((ing, i) => (
-                <li key={i}>{ing}</li>
-              ))}
-            </ul>
-            <button onClick={() => setVerDetalle(false)}>Cerrar</button>
-          </div>
-        </div>
+        <Modal
+          titulo={productoDetalle.nombre}
+          onClose={() => setVerDetalle(false)}
+        >
+          <p>
+            <strong>Ingredientes:</strong>
+          </p>
+          <ul>
+            {productoDetalle.ingredientes.map((ing, i) => (
+              <li key={i}>{ing}</li>
+            ))}
+          </ul>
+        </Modal>
       )}
     </div>
   );
