@@ -7,13 +7,10 @@ body {
 }
 
 .app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-image: url("https://s1.1zoom.me/big0/608/Fast_food_Hamburger_French_fries_Vegetables_Meat_540983_1280x859.jpg");
-  background-size: cover;
-  background-position: center;
+  background-image: url("...");
+
 }
+
 
 .navbar {
   background-color: #000;
@@ -55,7 +52,7 @@ body {
   padding: 1rem;
 }
 
-/* formulario base */
+
 form {
   max-width: 400px;
   margin: 0 auto;
@@ -85,7 +82,7 @@ button {
   cursor: pointer;
 }
 
-/* productos */
+
 .productos {
   display: flex;
   gap: 20px;
@@ -120,7 +117,7 @@ button {
   object-fit: cover;
 }
 
-/* ordenamiento horizontal del carrito*/
+
 .carrito ul {
   display: flex;
   flex-direction: row;
@@ -152,7 +149,7 @@ button {
   border-radius: 8px;
 }
 
-/* boton finalizar */
+
 .finalizar-btn {
   margin-top: 20px;
   background-color: #38c172;
@@ -162,7 +159,7 @@ button {
   background-color: #2fa360;
 }
 
-/* modal general */
+
 .modal {
   position: fixed;
   top: 0;
@@ -206,7 +203,7 @@ button {
   cursor: pointer;
 }
 
-/* boton de detalles*/
+
 .producto button:first-of-type {
   margin-bottom: 8px;
   background-color: #444;
@@ -216,7 +213,7 @@ button {
   background-color: #666;
 }
 
-/* historial */
+
 .historial-container {
   padding: 2rem;
   background-color: rgba(0, 0, 0, 0.7);

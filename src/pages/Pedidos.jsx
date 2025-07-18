@@ -7,6 +7,7 @@ function Pedidos() {
   const [detallePedido, setDetallePedido] = useState(null);
   const [verDetalle, setVerDetalle] = useState(false);
   const [productoDetalle, setProductoDetalle] = useState(null);
+  const tipos = [...new Set(menu.map(item => item.tipo))];
 
   const agregarAlCarrito = (producto) => {
     const existe = carrito.find((item) => item.id === producto.id);
@@ -70,29 +71,37 @@ function Pedidos() {
   return (
     <div className="pedidos-container">
       <h2>🍔 Menú de Hamburguesas</h2>
-      <div className="productos">
-        {menu.map((item) => (
-          <div key={item.id} className="producto">
-            <div className="producto-img-container">
-              <img src={item.imagen} alt={item.nombre} />
-            </div>
-
-            <h3>{item.nombre}</h3>
-            <p>Precio: S/ {item.precio.toFixed(2)}</p>
-            <button
-              onClick={() => {
-                setProductoDetalle(item);
-                setVerDetalle(true);
-              }}
-            >
-              Ver detalles
-            </button>
-            <button onClick={() => agregarAlCarrito(item)}>
-              Agregar al carrito
-            </button>
-          </div>
-        ))}
+      <div className="pedidos-container">
+    {tipos.map((tipo) => (
+      <div key={tipo}>
+        <h2 className="titulo-tipo">🍽️ {tipo.charAt(0).toUpperCase() + tipo.slice(1)}</h2>
+        <div className="productos">
+          {menu
+            .filter((item) => item.tipo === tipo)
+            .map((item) => (
+              <div key={item.id} className="producto">
+                <div className="producto-img-container">
+                  <img src={item.imagen} alt={item.nombre} />
+                </div>
+                <h3>{item.nombre}</h3>
+                <p>Precio: S/ {item.precio.toFixed(2)}</p>
+                <button
+                  onClick={() => {
+                    setProductoDetalle(item);
+                    setVerDetalle(true);
+                  }}
+                >
+                  Ver detalles
+                </button>
+                <button onClick={() => agregarAlCarrito(item)}>
+                  Agregar al carrito
+                </button>
+              </div>
+            ))}
+        </div>
       </div>
+    ))}
+  </div>
 
       <h2>🛒 Carrito</h2>
       {carrito.length === 0 ? (
