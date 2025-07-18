@@ -1,3 +1,4 @@
+/*  Login.jsx */
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +18,21 @@ function Login() {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Correo electrónico"
+        required
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Contraseña"
+        required
+      />
+
       <button type="submit">Entrar</button>
     </form>
   );

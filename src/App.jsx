@@ -1,3 +1,4 @@
+/* app.jsx */
 import { Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
