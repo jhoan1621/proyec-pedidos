@@ -95,7 +95,7 @@ function Pedidos() {
         <div className="filtros">
         <input
           type="text"
-          placeholder="Buscar hamburguesa..."
+          placeholder="Buscar ..."
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
           className="busqueda-input"
@@ -190,7 +190,6 @@ function Pedidos() {
         </div>
       )}
 
-      {/* Modal de confirmación */}
       {mostrarModal && detallePedido && (
         <div className="modal">
           <div className="modal-contenido">
