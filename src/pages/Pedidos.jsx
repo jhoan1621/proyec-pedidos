@@ -65,7 +65,7 @@ function Pedidos() {
     localStorage.setItem("historial", JSON.stringify(historial));
     setDetallePedido(nuevoPedido);
     setMostrarModal(true);
-    setCarrito([]); // vacía el carrito a
+    setCarrito([]); 
   };
 
   return (
