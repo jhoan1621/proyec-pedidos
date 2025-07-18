@@ -68,7 +68,9 @@ function App() {
 
       <footer className="footer">
         <p>© 2025 PedidoApp - Todos los derechos reservados.</p>
-        <p>Desarrollado por Jhoan</p>
+        <p>Desarrollado:</p>
+        <p>Jhoan Montañez Catalan</p>
+        <p>Ruberth Avalos Gamez</p>
       </footer>
     </div>
   );
