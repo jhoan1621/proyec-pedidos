@@ -70,7 +70,7 @@ function Pedidos() {
 
   return (
     <div className="pedidos-container">
-      <h2>🍔 Menú de Hamburguesas</h2>
+      <h2>Menús disponibles:</h2>
       <div className="pedidos-container">
     {tipos.map((tipo) => (
       <div key={tipo}>
