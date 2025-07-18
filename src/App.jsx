@@ -71,6 +71,8 @@ function App() {
         <p>Desarrolladores:</p>
         <p>Jhoan Montañez Catalan</p>
         <p>Ruberth Avalos Gamez</p>
+        <p>Edwin Stalin Gonzales</p>
+        <p>Erick Villarreal Almonacid</p>
       </footer>
     </div>
   );
