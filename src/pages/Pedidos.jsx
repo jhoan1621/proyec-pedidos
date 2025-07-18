@@ -9,6 +9,16 @@ function Pedidos() {
   const [productoDetalle, setProductoDetalle] = useState(null);
   const tipos = [...new Set(menu.map(item => item.tipo))];
 
+  const [busqueda, setBusqueda] = useState("");
+  const [precioMin, setPrecioMin] = useState("");
+  const [precioMax, setPrecioMax] = useState("");
+
+  const limpiarFiltros = () => {
+    setBusqueda("");
+    setPrecioMin("");
+    setPrecioMax("");
+  };
+
   const agregarAlCarrito = (producto) => {
     const existe = carrito.find((item) => item.id === producto.id);
     if (existe) {
@@ -68,15 +78,51 @@ function Pedidos() {
     setCarrito([]); 
   };
 
+  const productosFiltrados = menu.filter((item) => {
+    const nombreCoincide = item.nombre
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+    const precioValido =
+      (!precioMin || item.precio >= parseFloat(precioMin)) &&
+      (!precioMax || item.precio <= parseFloat(precioMax));
+    return nombreCoincide && precioValido;
+  });
+
   return (
     <div className="pedidos-container">
       <h2>Menús disponibles:</h2>
       <div className="pedidos-container">
+        <div className="filtros">
+        <input
+          type="text"
+          placeholder="Buscar hamburguesa..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          className="busqueda-input"
+        />
+        <input
+          type="number"
+          placeholder="Precio mínimo"
+          value={precioMin}
+          onChange={(e) => setPrecioMin(e.target.value)}
+          className="precio-input"
+        />
+        <input
+          type="number"
+          placeholder="Precio máximo"
+          value={precioMax}
+          onChange={(e) => setPrecioMax(e.target.value)}
+          className="precio-input"
+        />
+        <button onClick={limpiarFiltros} className="limpiar-btn">
+          Limpiar filtros
+        </button>
+      </div>
     {tipos.map((tipo) => (
       <div key={tipo}>
         <h2 className="titulo-tipo">🍽️ {tipo.charAt(0).toUpperCase() + tipo.slice(1)}</h2>
         <div className="productos">
-          {menu
+          {productosFiltrados
             .filter((item) => item.tipo === tipo)
             .map((item) => (
               <div key={item.id} className="producto">
