@@ -7,6 +7,15 @@ function Pedidos() {
   const [detallePedido, setDetallePedido] = useState(null);
   const [verDetalle, setVerDetalle] = useState(false);
   const [productoDetalle, setProductoDetalle] = useState(null);
+  const [busqueda, setBusqueda] = useState("");
+  const [precioMin, setPrecioMin] = useState("");
+  const [precioMax, setPrecioMax] = useState("");
+
+  const limpiarFiltros = () => {
+    setBusqueda("");
+    setPrecioMin("");
+    setPrecioMax("");
+  };
 
   const agregarAlCarrito = (producto) => {
     const existe = carrito.find((item) => item.id === producto.id);
@@ -64,36 +73,88 @@ function Pedidos() {
     localStorage.setItem("historial", JSON.stringify(historial));
     setDetallePedido(nuevoPedido);
     setMostrarModal(true);
-    setCarrito([]); // vacía el carrito
+    setCarrito([]);
   };
+
+  const productosFiltrados = menu.filter((item) => {
+    const nombreCoincide = item.nombre
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+    const precioValido =
+      (!precioMin || item.precio >= parseFloat(precioMin)) &&
+      (!precioMax || item.precio <= parseFloat(precioMax));
+    return nombreCoincide && precioValido;
+  });
 
   return (
     <div className="pedidos-container">
       <h2>🍔 Menú de Hamburguesas</h2>
-      <div className="productos">
-        {menu.map((item) => (
-          <div key={item.id} className="producto">
-            <div className="producto-img-container">
-              <img src={item.imagen} alt={item.nombre} />
-            </div>
 
-            <h3>{item.nombre}</h3>
-            <p>Precio: S/ {item.precio.toFixed(2)}</p>
-            <button
-              onClick={() => {
-                setProductoDetalle(item);
-                setVerDetalle(true);
-              }}
-            >
-              Ver detalles
-            </button>
-            <button onClick={() => agregarAlCarrito(item)}>
-              Agregar al carrito
-            </button>
-          </div>
-        ))}
+      {/* 🔍 Filtros */}
+      <div
+        className="filtros"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          marginBottom: "20px",
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Buscar hamburguesa..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          className="busqueda-input"
+        />
+        <input
+          type="number"
+          placeholder="Precio mínimo"
+          value={precioMin}
+          onChange={(e) => setPrecioMin(e.target.value)}
+          className="precio-input"
+        />
+        <input
+          type="number"
+          placeholder="Precio máximo"
+          value={precioMax}
+          onChange={(e) => setPrecioMax(e.target.value)}
+          className="precio-input"
+        />
+        <button onClick={limpiarFiltros} className="limpiar-btn">
+          Limpiar filtros
+        </button>
       </div>
 
+      {/* Productos */}
+      <div className="productos">
+        {productosFiltrados.length === 0 ? (
+          <p>No hay hamburguesas que coincidan con el filtro.</p>
+        ) : (
+          productosFiltrados.map((item) => (
+            <div key={item.id} className="producto">
+              <div className="producto-img-container">
+                <img src={item.imagen} alt={item.nombre} />
+              </div>
+              <h3>{item.nombre}</h3>
+              <p>Precio: S/ {item.precio.toFixed(2)}</p>
+              <button
+                onClick={() => {
+                  setProductoDetalle(item);
+                  setVerDetalle(true);
+                }}
+              >
+                Ver detalles
+              </button>
+              <button onClick={() => agregarAlCarrito(item)}>
+                Agregar al carrito
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Carrito */}
       <h2>🛒 Carrito</h2>
       {carrito.length === 0 ? (
         <p>Tu carrito está vacío</p>
@@ -110,9 +171,18 @@ function Pedidos() {
                 <div className="carrito-info">
                   <strong>{item.nombre}</strong>
                   <br />
-                  <button onClick={() => reducirCantidad(item.id)}>-</button>
-                  <span> {item.cantidad} </span>
-                  <button onClick={() => agregarAlCarrito(item)}>+</button>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <button onClick={() => reducirCantidad(item.id)}>-</button>
+                    <span>{item.cantidad}</span>
+                    <button onClick={() => agregarAlCarrito(item)}>+</button>
+                  </div>
                   <br />
                   Total: S/ {(item.precio * item.cantidad).toFixed(2)}
                 </div>
@@ -135,7 +205,7 @@ function Pedidos() {
         </div>
       )}
 
-      {/* Modal de confirmación */}
+      {/* Modal de pedido */}
       {mostrarModal && detallePedido && (
         <div className="modal">
           <div className="modal-contenido">
@@ -165,7 +235,7 @@ function Pedidos() {
         </div>
       )}
 
-      {/* Modal de ingredientes */}
+      {/* Modal de detalle de hamburguesa */}
       {verDetalle && productoDetalle && (
         <div className="modal">
           <div className="modal-contenido">
